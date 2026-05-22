@@ -1,0 +1,33 @@
+# ==========================================================================
+# ResumeAI .gitignore - Protect credentials and local databases
+# ==========================================================================
+
+# Environment variables (Crucial: Protects your GROQ_API_KEY!)
+.env
+.env.local
+.env.*.local
+
+# Databases
+*.sqlite3
+db.sqlite3
+
+# Media uploads (resumes uploaded locally)
+media/
+resumes/
+staticfiles/
+
+# Python Cache & compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# OS system files
+.DS_Store
+Thumbs.db

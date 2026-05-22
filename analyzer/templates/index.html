@@ -1,0 +1,636 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ResumeAI - Premium AI Resume Analyzer & Career Coach</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Custom Style Sheet -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <!-- App Layout -->
+    <div class="app-container">
+        
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="url(#logoGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 17L12 22L22 17" stroke="url(#logoGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 12L12 17L22 12" stroke="url(#logoGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <defs>
+                            <linearGradient id="logoGrad" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#8B5CF6"/>
+                                <stop offset="1" stop-color="#06B6D4"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <h2>Resume<span>AI</span></h2>
+            </div>
+            
+            <nav class="sidebar-menu">
+                <a href="#" class="nav-item active" data-tab="dashboard">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-item" data-tab="upload">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                    <span>Upload Resume</span>
+                </a>
+                <a href="#" class="nav-item disabled-need-resume" data-tab="analysis">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    <span>AI Analysis</span>
+                </a>
+                <a href="#" class="nav-item disabled-need-resume" data-tab="matcher">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M22 2L12 12"></path></svg>
+                    <span>Job Matcher</span>
+                </a>
+                <a href="#" class="nav-item disabled-need-resume" data-tab="interview">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                    <span>Mock Interview</span>
+                </a>
+                <a href="#" class="nav-item disabled-need-resume" data-tab="chat">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="22"></line></svg>
+                    <span>AI Career Coach</span>
+                </a>
+                <a href="#" class="nav-item" data-tab="history">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    <span>Upload History</span>
+                </a>
+                <a href="#" class="nav-item" data-tab="admin">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>
+                    <span>Admin Panel</span>
+                </a>
+            </nav>
+            
+            <!-- Dark / Light Theme & Profile -->
+            <div class="sidebar-footer">
+                <div class="theme-toggle" id="themeToggleBtn">
+                    <div class="toggle-track">
+                        <span class="toggle-thumb">
+                            <svg class="sun-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                            <svg class="moon-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                        </span>
+                    </div>
+                    <span class="toggle-label">Dark Mode</span>
+                </div>
+                
+                <div class="user-profile">
+                    <div class="user-avatar">RA</div>
+                    <div class="user-info">
+                        <h4>Demo User</h4>
+                        <p>Standard Tier</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        
+        <!-- Main Content Area -->
+        <main class="main-content">
+            
+            <!-- Top Header -->
+            <header class="app-header">
+                <div class="header-search">
+                    <span class="active-resume-badge" id="activeResumeBadge" style="display: none;">
+                        <span class="pulse-indicator"></span>
+                        Active Resume: <strong id="activeResumeName">None</strong>
+                    </span>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-secondary btn-icon" id="quickHistoryBtn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"></polyline><polyline points="23 20 23 14 17 14"></polyline><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"></path></svg>
+                    </button>
+                    <button class="btn btn-primary" onclick="showTab('upload')">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        <span>Analyze New</span>
+                    </button>
+                </div>
+            </header>
+            
+            <!-- Dynamic Tab Content Sections -->
+            <div class="tab-viewport">
+                
+                <!-- 1. DASHBOARD TAB -->
+                <section id="dashboard-tab" class="tab-content active">
+                    <div class="welcome-banner">
+                        <div class="banner-text">
+                            <h1>Elevate Your Career with Resume<span>AI</span></h1>
+                            <p>Unlock recruiter-level insights, ATS checks, and smart mock interviews inside one premium portal.</p>
+                        </div>
+                        <div class="banner-illustration">
+                            <!-- Premium geometric grid -->
+                            <div class="grid-decor"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- KPI Cards Grid -->
+                    <div class="kpi-grid">
+                        <div class="kpi-card glass animate-slide-up">
+                            <div class="kpi-icon gradient-purple">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                            </div>
+                            <div class="kpi-content">
+                                <h3>Total Resumes</h3>
+                                <h2 id="kpi-total-resumes">-</h2>
+                                <p class="trend up">Parsed & Stored Safely</p>
+                            </div>
+                        </div>
+                        <div class="kpi-card glass animate-slide-up" style="animation-delay: 0.1s;">
+                            <div class="kpi-icon gradient-blue">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M22 2L12 12"></path></svg>
+                            </div>
+                            <div class="kpi-content">
+                                <h3>Avg ATS Score</h3>
+                                <h2 id="kpi-avg-ats">-<span>%</span></h2>
+                                <p class="trend up">Industry Benchmark: 70%</p>
+                            </div>
+                        </div>
+                        <div class="kpi-card glass animate-slide-up" style="animation-delay: 0.2s;">
+                            <div class="kpi-icon gradient-cyan">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>
+                            </div>
+                            <div class="kpi-content">
+                                <h3>Job Matches</h3>
+                                <h2 id="kpi-total-matches">-</h2>
+                                <p class="trend neutral">Evaluated Scenarios</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Dashboard Visual Content (Charts and Recent Files) -->
+                    <div class="dashboard-details">
+                        <!-- Chart section -->
+                        <div class="details-card chart-card glass">
+                            <div class="card-header">
+                                <h3>Skill Density & Gaps</h3>
+                                <span class="badge badge-purple">Recruiter View</span>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="dashboardSkillsChart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <!-- Recent Activity section -->
+                        <div class="details-card history-card glass">
+                            <div class="card-header">
+                                <h3>Recent Uploads</h3>
+                                <button class="btn-text" onclick="showTab('history')">View All</button>
+                            </div>
+                            <div class="history-list-compact" id="dashboardRecentList">
+                                <div class="empty-state-compact">
+                                    <p>No resumes uploaded yet. Let's get started!</p>
+                                    <button class="btn btn-secondary btn-sm" onclick="showTab('upload')">Upload First Resume</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- 2. UPLOAD RESUME TAB -->
+                <section id="upload-tab" class="tab-content">
+                    <div class="tab-header">
+                        <h1>Upload Your Resume</h1>
+                        <p>Drag and drop or select your PDF or DOCX file to run automatic text-extraction and trigger advanced AI analysis.</p>
+                    </div>
+                    
+                    <div class="upload-zone-wrapper">
+                        <div class="upload-dropzone" id="dropzone">
+                            <input type="file" id="resumeFileInput" accept=".pdf,.docx,.txt" style="display: none;">
+                            
+                            <div class="dropzone-graphic">
+                                <div class="pulse-ring"></div>
+                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="url(#blueGrad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="17 8 12 3 7 8"></polyline>
+                                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                                    <defs>
+                                        <linearGradient id="blueGrad" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
+                                            <stop stop-color="#8B5CF6"/>
+                                            <stop offset="1" stop-color="#06B6D4"/>
+                                        </linearGradient>
+                                    </defs>
+                                </svg>
+                            </div>
+                            
+                            <h3>Drag & Drop your resume here</h3>
+                            <p class="formats">Supports PDF, DOCX and TXT formats (Max size 10MB)</p>
+                            
+                            <button class="btn btn-primary" id="browseFilesBtn">Browse Local Files</button>
+                        </div>
+                        
+                        <!-- Uploading/Parsing progress status -->
+                        <div class="upload-progress-card glass" id="uploadProgressCard" style="display: none;">
+                            <div class="progress-details">
+                                <div class="file-info-row">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                                    <div class="text-group">
+                                        <h4 id="progressFileName">resume_sample.pdf</h4>
+                                        <p id="progressStatus">Uploading file securely...</p>
+                                    </div>
+                                </div>
+                                <div class="loader-spinner"></div>
+                            </div>
+                            <div class="progress-bar-track">
+                                <div class="progress-bar-fill" id="progressFill" style="width: 20%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- 3. AI ANALYSIS TAB (DETAILED RESUME REPORT) -->
+                <section id="analysis-tab" class="tab-content">
+                    <div class="tab-header flex-header">
+                        <div>
+                            <h1>AI Resume Analysis</h1>
+                            <p>Detailed performance index, recruitment scoring, and skill enhancement recommendations.</p>
+                        </div>
+                        <div class="actions">
+                            <button class="btn btn-secondary btn-icon" id="printReportBtn" title="Export Analysis as PDF">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                                <span>Export PDF</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Scoring Summary Banner -->
+                    <div class="analysis-summary-grid">
+                        <div class="score-radial-card glass">
+                            <div class="circular-progress-wrap">
+                                <svg viewBox="0 0 36 36" class="circular-chart purple">
+                                    <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                    <path class="circle" id="atsScoreCircle" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                    <text x="18" y="20.35" class="percentage" id="atsScoreText">0%</text>
+                                </svg>
+                            </div>
+                            <h3>ATS Score</h3>
+                            <p>Compatibility match rate</p>
+                        </div>
+                        
+                        <div class="score-radial-card glass">
+                            <div class="circular-progress-wrap">
+                                <svg viewBox="0 0 36 36" class="circular-chart cyan">
+                                    <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                    <path class="circle" id="strengthScoreCircle" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                    <text x="18" y="20.35" class="percentage" id="strengthScoreText">0%</text>
+                                </svg>
+                            </div>
+                            <h3>Strength Rating</h3>
+                            <p>Accomplishments intensity</p>
+                        </div>
+                        
+                        <div class="critique-text-card glass">
+                            <h3>Recruiter Verdict</h3>
+                            <p id="experienceCritiqueText">Evaluating...</p>
+                            <div class="critique-divider"></div>
+                            <h3>Project Critique</h3>
+                            <p id="projectCritiqueText">Evaluating...</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Modular Detail Tabs -->
+                    <div class="detail-tabs-container">
+                        <div class="tab-buttons-row">
+                            <button class="detail-tab-btn active" data-subtab="sub-skills">Skills Gap</button>
+                            <button class="detail-tab-btn" data-subtab="sub-grammar">Grammar & Formatting</button>
+                            <button class="detail-tab-btn" data-subtab="sub-keywords">Keyword Optimization</button>
+                            <button class="detail-tab-btn" data-subtab="sub-tips">Action Plan</button>
+                            <button class="detail-tab-btn" data-subtab="sub-rewrite">AI Rewriter</button>
+                        </div>
+                        
+                        <!-- Subtab 1: Skills Gap -->
+                        <div class="subtab-panel active" id="sub-skills">
+                            <div class="skills-grid">
+                                <div class="skills-group-box glass">
+                                    <h4 class="title-with-badge">
+                                        <span>Detected Skills</span>
+                                        <span class="pill pill-green" id="countDetectedSkills">0</span>
+                                    </h4>
+                                    <div class="badge-flex" id="detectedSkillsList">
+                                        <!-- Javascript filled dynamic labels -->
+                                    </div>
+                                </div>
+                                <div class="skills-group-box glass">
+                                    <h4 class="title-with-badge">
+                                        <span>Missing Skills Gap</span>
+                                        <span class="pill pill-red" id="countMissingSkills">0</span>
+                                    </h4>
+                                    <div class="badge-flex" id="missingSkillsList">
+                                        <!-- Javascript filled dynamic labels -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Subtab 2: Grammar -->
+                        <div class="subtab-panel" id="sub-grammar">
+                            <ul class="suggestions-list" id="grammarSuggestionsList">
+                                <!-- Bullet elements -->
+                            </ul>
+                        </div>
+                        
+                        <!-- Subtab 3: Keyword Optimization -->
+                        <div class="subtab-panel" id="sub-keywords">
+                            <div class="keywords-table-wrap glass">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Target Keyword</th>
+                                            <th>Optimization Value / Recommendation</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="keywordsOptimizationTable">
+                                        <!-- Rows -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <!-- Subtab 4: Action Plan -->
+                        <div class="subtab-panel" id="sub-tips">
+                            <div class="tips-grid" id="actionableTipsList">
+                                <!-- Cards -->
+                            </div>
+                        </div>
+                        
+                        <!-- Subtab 5: AI Rewriter -->
+                        <div class="subtab-panel" id="sub-rewrite">
+                            <div class="rewriter-split">
+                                <div class="rewriter-input-box glass">
+                                    <h4>Original Bullet Point / Sentence</h4>
+                                    <textarea id="rewriterInputText" placeholder="Paste a sentence from your resume that you want the AI to optimize... (e.g. 'I built standard features with Python' or 'Responsible for user database administration')"></textarea>
+                                    <button class="btn btn-primary" id="triggerRewriteBtn">Optimize with AI</button>
+                                </div>
+                                <div class="rewriter-output-box glass">
+                                    <h4>Recruiter-Optimized Alternative</h4>
+                                    <div class="rewriter-placeholder" id="rewriterOutputPlaceholder">
+                                        <p>Your optimized alternative will appear here. Click "Optimize with AI" to generate a result-oriented rewrite.</p>
+                                    </div>
+                                    <div class="rewriter-output-content" id="rewriterOutputContent" style="display: none;">
+                                        <div class="rewritten-bubble" id="rewriterOutputText">
+                                            <!-- Rewritten text -->
+                                        </div>
+                                        <button class="btn btn-secondary btn-sm" id="copyRewrittenBtn">Copy to Clipboard</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- 4. JOB MATCHER TAB -->
+                <section id="matcher-tab" class="tab-content">
+                    <div class="tab-header">
+                        <h1>Job Description Matcher</h1>
+                        <p>Cross-analyze your active resume against a target job description to compute overlap and detect search index gaps.</p>
+                    </div>
+                    
+                    <div class="matcher-split">
+                        <!-- Input panels -->
+                        <div class="matcher-inputs glass">
+                            <div class="form-group">
+                                <label for="jdJobTitle">Target Job Title</label>
+                                <input type="text" id="jdJobTitle" placeholder="e.g. Senior Backend Engineer">
+                            </div>
+                            <div class="form-group">
+                                <label for="jdText">Job Description</label>
+                                <textarea id="jdText" placeholder="Paste the full text of the job description here... (skills list, qualifications, responsibilities)"></textarea>
+                            </div>
+                            <button class="btn btn-primary btn-block" id="triggerJobMatchBtn">Analyze Job Match</button>
+                        </div>
+                        
+                        <!-- Output panels -->
+                        <div class="matcher-outputs" id="matcherOutputsContainer">
+                            <div class="empty-state-card glass">
+                                <h3>Awaiting Analysis</h3>
+                                <p>Provide a job title and paste the job description text, then click "Analyze Job Match" to see the compatibility metrics.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- 5. INTERVIEW PREP TAB -->
+                <section id="interview-tab" class="tab-content">
+                    <div class="tab-header flex-header">
+                        <div>
+                            <h1>AI Interview Preparation</h1>
+                            <p>Generate context-specific technical, HR, and project questions aligned directly with your resume experience.</p>
+                        </div>
+                        <div class="actions">
+                            <button class="btn btn-secondary" id="triggerSpeechMockToggle">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="22"></line></svg>
+                                <span id="speechToggleLabel">Start Speech Mock</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Speech Mock Controller View (Conditional) -->
+                    <div class="speech-mock-panel glass" id="speechMockPanel" style="display: none;">
+                        <div class="speech-header">
+                            <div class="status-indicator-group">
+                                <span class="status-circle red-pulse" id="speechRecordingIndicator"></span>
+                                <span class="status-label" id="speechMockStatusText">Awaiting Audio triggers...</span>
+                            </div>
+                            <button class="btn btn-sm btn-secondary" id="exitSpeechMockBtn">Exit Mock Mode</button>
+                        </div>
+                        
+                        <div class="speech-content-core">
+                            <div class="speech-card glass">
+                                <span class="speech-badge" id="speechQuestionCategory">Technical</span>
+                                <h2 class="speech-question" id="speechQuestionText">Your interactive mock question will be voiced here.</h2>
+                                <p class="speech-tip" id="speechQuestionTip">💡 Tip: Speak clearly. Try to frame your response around the STAR method.</p>
+                            </div>
+                            
+                            <!-- Visual Audio wave simulation -->
+                            <div class="audio-wave-wrap" id="audioWaveWrap" style="display: none;">
+                                <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                                <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                            </div>
+                            
+                            <div class="transcript-box glass" id="speechTranscriptBox" style="display: none;">
+                                <h4>Your Transcribed Answer:</h4>
+                                <p id="speechTranscribedText">Listening...</p>
+                            </div>
+                        </div>
+                        
+                        <div class="speech-controls">
+                            <button class="btn btn-secondary btn-icon" id="speechReadQuestionBtn" title="Speak Question Again">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                            </button>
+                            <button class="btn btn-primary" id="speechMicBtn">
+                                <span>Record Answer</span>
+                            </button>
+                            <button class="btn btn-secondary" id="speechNextBtn">Next Question</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Standard Questions Display -->
+                    <div class="interview-prep-core" id="standardInterviewPrepGrid">
+                        <!-- Left pane: Questions list -->
+                        <div class="questions-pane glass">
+                            <h3>Generated Questions</h3>
+                            <div class="questions-list-wrapper" id="interviewQuestionsList">
+                                <!-- dynamic question rows -->
+                            </div>
+                        </div>
+                        
+                        <!-- Right pane: Answer tip card -->
+                        <div class="answer-tips-pane glass">
+                            <div class="tip-detail-empty" id="interviewTipEmptyState">
+                                <h3>Question Details</h3>
+                                <p>Select a question from the left sidebar panel to inspect tailored recruitment advice, expected technical outcomes, and detailed answer preparation guidelines.</p>
+                            </div>
+                            <div class="tip-detail-content" id="interviewTipContentPanel" style="display: none;">
+                                <span class="badge badge-purple" id="tipCategoryBadge">Category</span>
+                                <h3 id="tipQuestionTitle">Question Text</h3>
+                                <div class="divider"></div>
+                                <h4>AI Preparation Tip</h4>
+                                <p id="tipDescriptionText">AI tip detail goes here...</p>
+                                <div class="tip-box">
+                                    <h5>Key metrics to cite:</h5>
+                                    <ul id="tipMetricsList">
+                                        <li>Specific tools/libraries</li>
+                                        <li>Percentage outcomes & optimizations</li>
+                                        <li>Architectural trade-offs</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- 6. AI CAREER COACH TAB -->
+                <section id="chat-tab" class="tab-content">
+                    <div class="tab-header">
+                        <h1>AI Career Coach & Chat</h1>
+                        <p>Interact in real-time with an AI consultant designed to optimize your resume bullets, evaluate job prospects, and craft custom cover letters.</p>
+                    </div>
+                    
+                    <div class="chat-viewport glass">
+                        <!-- Chat message thread container -->
+                        <div class="chat-messages-container" id="chatMessagesThread">
+                            <div class="message-bubble assistant">
+                                <div class="avatar">RA</div>
+                                <div class="text">
+                                    <p>Hello! I am your <strong>ResumeAI Career Coach</strong>. I've finished analyzing your resume and am ready to support your search efforts.</p>
+                                    <p>Ask me anything! For example:</p>
+                                    <ul>
+                                        <li><em>"Can you write a cover letter based on this resume?"</em></li>
+                                        <li><em>"What keywords should I add to target a senior software position?"</em></li>
+                                        <li><em>"Optimize my project bullet describing the Django chat portal."</em></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Chat input panel -->
+                        <div class="chat-input-row">
+                            <textarea id="chatInputMessage" placeholder="Ask a career question, ask for cover letter, or refine resume details..."></textarea>
+                            <button class="btn btn-primary" id="chatSendMessageBtn">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- 7. UPLOAD HISTORY TAB -->
+                <section id="history-tab" class="tab-content">
+                    <div class="tab-header">
+                        <h1>Upload & Analysis History</h1>
+                        <p>Review previously uploaded documents, browse computed ATS records, and reload historical data.</p>
+                    </div>
+                    
+                    <div class="history-table-card glass">
+                        <div class="table-wrapper">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>File Name</th>
+                                        <th>Date Uploaded</th>
+                                        <th>ATS Match Rate</th>
+                                        <th>Strength Score</th>
+                                        <th>Target Fits Checked</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="historyTableBody">
+                                    <!-- Table Rows -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- 8. ADMIN PANEL TAB -->
+                <section id="admin-tab" class="tab-content">
+                    <div class="tab-header">
+                        <h1>Admin Performance & Metrics Panel</h1>
+                        <p>Monitor application usage, API token consumption, database capacity and mock system statuses.</p>
+                    </div>
+                    
+                    <!-- Grid of metrics -->
+                    <div class="admin-grid">
+                        <div class="admin-metric-card glass">
+                            <h3>API Traffic Engine</h3>
+                            <div class="status-indicator">
+                                <span class="status-circle green" id="adminGroqStatusCircle"></span>
+                                <span id="adminGroqStatusLabel">Active (Llama-3 Integration Ready)</span>
+                            </div>
+                            <div class="metric-row">
+                                <span class="label">Total Tokens Spent:</span>
+                                <strong id="adminTokensValue">-</strong>
+                            </div>
+                        </div>
+                        
+                        <div class="admin-metric-card glass">
+                            <h3>Analytics Summary</h3>
+                            <div class="metric-row">
+                                <span class="label">Stored Resumes:</span>
+                                <strong id="adminTotalResumes">-</strong>
+                            </div>
+                            <div class="metric-row">
+                                <span class="label">Job Scenarios Compared:</span>
+                                <strong id="adminTotalMatches">-</strong>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Bottom grid (Charts / logs) -->
+                    <div class="admin-details-grid">
+                        <!-- Chart section -->
+                        <div class="details-card glass">
+                            <h3>Most Common Detected Skills</h3>
+                            <div class="skills-stat-list" id="adminDetectedSkillsList">
+                                <!-- Dynamic progress rows -->
+                            </div>
+                        </div>
+                        
+                        <!-- Log console -->
+                        <div class="details-card glass">
+                            <h3>API Logs & Console View</h3>
+                            <div class="console-box" id="adminConsoleBox">
+                                <div class="log-line text-muted">Awaiting API action logging...</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+            </div>
+        </main>
+    </div>
+    
+    <!-- Custom JS script -->
+    <script src="{% static 'js/app.js' %}"></script>
+</body>
+</html>
